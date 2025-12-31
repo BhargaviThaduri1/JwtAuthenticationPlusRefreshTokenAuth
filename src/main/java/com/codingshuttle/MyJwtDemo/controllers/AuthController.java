@@ -37,14 +37,5 @@ public class AuthController {
        return ResponseEntity.ok(loginResponseDTO);
     }
 
-    @PostMapping("/refresh")
-    public ResponseEntity<LoginResponseDTO> refresh(HttpServletRequest httpServletRequest){
-        String refreshToken = Arrays.stream(httpServletRequest.getCookies())
-                .filter(cookie -> "refreshToken".equals(cookie.getName()))
-                .map(Cookie::getValue)
-                .findAny().orElseThrow(() -> new AuthenticationServiceException("Refresh token not found inside cookies"));
 
-        LoginResponseDTO loginResponseDTO = authService.refresh(refreshToken);
-        return ResponseEntity.ok(loginResponseDTO);
-    }
 }
