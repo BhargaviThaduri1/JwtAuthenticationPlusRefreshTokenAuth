@@ -18,7 +18,9 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO){
-       return ResponseEntity.ok(postServiceImpl.createPost(postDTO));
+        System.out.println("CONTROLLER HIT");
+
+        return ResponseEntity.ok(postServiceImpl.createPost(postDTO));
     }
 
     @GetMapping("/{id}")

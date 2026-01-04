@@ -29,19 +29,20 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accesstoken = request.getHeader("Authorization");
         if(accesstoken == null || !accesstoken.startsWith("Bearer ")){
-            doFilter(request,response,filterChain);
+            filterChain.doFilter(request, response);
             return;
         }
         String token = accesstoken.split("Bearer ")[1];
         Long userId = jwtService.getUserId(token);
-        if(userId != null || SecurityContextHolder.getContext().getAuthentication()!=null){
-             UserEntity user = userService.getUserById(userId);
+        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            UserEntity user = userService.getUserById(userId);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             user,null,user.getAuthorities()
             );
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
+        filterChain.doFilter(request,response);
 
     }
 }

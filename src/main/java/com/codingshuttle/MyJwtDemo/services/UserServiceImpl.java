@@ -37,6 +37,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 " not found"));
     }
 
+    public UserEntity getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public UserEntity save(UserEntity user) {
+        return userRepository.save(user);
+    }
+
     public UserDTO signUp(SignUpRequest signUpRequest) {
 
         Optional<UserEntity> userEntity = userRepository.findByEmail(signUpRequest.getEmail());

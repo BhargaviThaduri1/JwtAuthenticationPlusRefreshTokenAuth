@@ -9,5 +9,7 @@ public interface UserService {
 
     UserDTO signUp(SignUpRequest signUpRequest);
     UserEntity getUserById(Long userId);
+    UserEntity getUserByEmail(String email);
+    UserEntity save(UserEntity user);
 
 }

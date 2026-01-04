@@ -5,6 +5,7 @@ import com.codingshuttle.MyJwtDemo.dto.SignUpRequest;
 import com.codingshuttle.MyJwtDemo.dto.UserDTO;
 import com.codingshuttle.MyJwtDemo.dto.loginRequest;
 import com.codingshuttle.MyJwtDemo.services.AuthService;
+import com.codingshuttle.MyJwtDemo.services.SessionService;
 import com.codingshuttle.MyJwtDemo.services.UserService;
 import com.codingshuttle.MyJwtDemo.services.UserServiceImpl;
 import jakarta.servlet.http.Cookie;
@@ -24,6 +25,7 @@ public class AuthController {
 
     private final UserServiceImpl userService;
     private final AuthService authService;
+    private final SessionService sessionService;
 
     @PostMapping("/signup")
     public ResponseEntity<UserDTO> signUp(@RequestBody SignUpRequest signUpRequest){
@@ -33,6 +35,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody loginRequest loginRequest, HttpServletResponse httpServletResponse){
        LoginResponseDTO loginResponseDTO = authService.login(loginRequest);
+
+       sessionService.generateNewSession(loginResponseDTO.getUserId(),loginResponseDTO.getRefreshToken());
+
        httpServletResponse.addCookie(new Cookie("refreshToken",loginResponseDTO.getRefreshToken()));
        return ResponseEntity.ok(loginResponseDTO);
     }
@@ -43,6 +48,8 @@ public class AuthController {
                 .filter(cookie -> "refreshToken".equals(cookie.getName()))
                 .map(Cookie::getValue)
                 .findAny().orElseThrow(() -> new AuthenticationServiceException("Refresh token not found inside cookies"));
+
+        sessionService.validateSession(refreshToken);
 
         LoginResponseDTO loginResponseDTO = authService.refresh(refreshToken);
         return ResponseEntity.ok(loginResponseDTO);

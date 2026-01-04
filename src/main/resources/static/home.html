@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home | Spring Boot App</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .buttons {
+            margin-top: 30px;
+        }
+
+        .buttons a {
+            text-decoration: none;
+            padding: 12px 24px;
+            margin: 10px;
+            display: inline-block;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #667eea;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #5a6fdc;
+        }
+
+        .btn-secondary {
+            background-color: #764ba2;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #683c91;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #999;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <header>
+        <h1>Welcome to Spring Boot</h1>
+        <p>Your home page is up and running 🚀</p>
+    </header>
+
+    <section>
+        <p>
+            This is a sample <strong>Spring Boot Home Page</strong> with
+            embedded CSS. You can customize it or connect it to your
+            controllers easily.
+        </p>
+
+        <div class="buttons">
+            <a th:href="@{/login}" class="btn-primary">Login</a>
+            <a th:href="@{/register}" class="btn-secondary">Register</a>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 Spring Boot Application
+    </footer>
+</div>
+</body>
+</html>

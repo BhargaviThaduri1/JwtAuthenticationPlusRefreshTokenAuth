@@ -29,6 +29,7 @@ public class JwtService {
     public LoginResponseDTO generateToken(UserEntity user){
         String accessToken =  Jwts.builder().subject(user.getId().toString())
                 .claim("Email",user.getEmail())
+                .claim("roles",user.getRoles().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000*60))
                 .signWith(getSecretKey())
