@@ -31,7 +31,7 @@ public class JwtService {
                 .claim("Email",user.getEmail())
                 .claim("roles",user.getRoles().toString())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000*60))
+                .expiration(new Date(System.currentTimeMillis() + 1000*60*60))
                 .signWith(getSecretKey())
                 .compact();
         String refreshToken = Jwts.builder().subject(user.getId().toString())

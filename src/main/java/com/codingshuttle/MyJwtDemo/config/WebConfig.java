@@ -1,6 +1,6 @@
 package com.codingshuttle.MyJwtDemo.config;
 
-import com.codingshuttle.MyJwtDemo.Role;
+import com.codingshuttle.MyJwtDemo.entities.enums.Permission;
 import com.codingshuttle.MyJwtDemo.filters.JwtFilter;
 import com.codingshuttle.MyJwtDemo.handlers.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
@@ -11,15 +11,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static com.codingshuttle.MyJwtDemo.Role.ADMIN;
-import static com.codingshuttle.MyJwtDemo.Role.CREATOR;
+import static com.codingshuttle.MyJwtDemo.entities.enums.Role.ADMIN;
+import static com.codingshuttle.MyJwtDemo.entities.enums.Role.CREATOR;
 
 @EnableWebSecurity
 @Configuration
@@ -38,6 +35,10 @@ public class WebConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/error","/auth/**","/home.html").permitAll()
                         .requestMatchers(HttpMethod.POST,"/posts/**").hasAnyRole(ADMIN.name(),CREATOR.name())
+                        .requestMatchers(HttpMethod.POST,"/posts/**").hasAnyAuthority(Permission.POST_CREATE.name())
+                        .requestMatchers(HttpMethod.GET,"/posts/**").hasAnyAuthority(Permission.POST_VIEW.name())
+                        .requestMatchers(HttpMethod.DELETE,"/posts/**").hasAnyAuthority(Permission.POST_DELETE.name())
+                        .requestMatchers(HttpMethod.PUT,"/posts/**").hasAnyAuthority(Permission.POST_UPDATE.name())
                         .anyRequest().authenticated()
                        )
                 .csrf(csrfConfig -> csrfConfig.disable())
