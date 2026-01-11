@@ -1,6 +1,7 @@
 package com.codingshuttle.MyJwtDemo.dto;
 
 
+import com.codingshuttle.MyJwtDemo.entities.UserEntity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,4 +17,6 @@ public class PostDTO {
     String title;
 
     String description;
+
+    UserDTO author;
 }
